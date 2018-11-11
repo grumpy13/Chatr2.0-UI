@@ -1,5 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+
+// Actions
+import * as actionCreators from "/Users/grumpy/Development/REACT/Chatr2.0-UI/src/store/actions";
 
 // Fontawesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -18,21 +22,37 @@ class SideNav extends React.Component {
     this.state = { collapsed: false };
   }
 
+  componentDidMount() {
+    this.props.fetchChannels();
+  }
+
   render() {
-    const channelLinks = [{ name: "all" }].map(channel => (
-      <ChannelNavLink key={channel.name} channel={channel} />
-    ));
+    let channelLinks = [];
+    if (this.props.user) {
+      channelLinks = this.props.channelsList.map(channel => (
+        <ChannelNavLink key={channel.name} channel={channel} />
+      ));
+    }
+
     return (
       <div>
-        <ul className="navbar-nav navbar-sidenav" id="exampleAccordion">
-          <li className="nav-item" data-toggle="tooltip" data-placement="right">
-            <Link className="nav-link heading" to="/createChannel">
-              <span className="nav-link-text mr-2">Channels</span>
-              <FontAwesomeIcon icon={faPlusCircle} />
-            </Link>
-          </li>
-          {channelLinks}
-        </ul>
+        {this.props.user && (
+          <ul className="navbar-nav navbar-sidenav" id="exampleAccordion">
+            <li
+              className="nav-item"
+              data-toggle="tooltip"
+              data-placement="right"
+            >
+              <Link className="nav-link heading" to="/createChannel">
+                <span className="nav-link-text mr-2">Channels</span>
+                <FontAwesomeIcon icon={faPlusCircle} />
+              </Link>
+            </li>
+
+            {channelLinks}
+          </ul>
+        )}
+
         <ul className="navbar-nav sidenav-toggler">
           <li className="nav-item">
             <span
@@ -54,5 +74,18 @@ class SideNav extends React.Component {
     );
   }
 }
+const mapStateToProps = state => ({
+  channelsList: state.channels.channelsList,
+  user: state.auth.user
+});
 
-export default SideNav;
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchChannels: () => dispatch(actionCreators.fetchChannels())
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SideNav);
