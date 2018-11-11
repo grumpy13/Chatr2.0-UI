@@ -1,5 +1,9 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+
+// Actions
+import * as actionCreators from "../store/actions";
 
 class RegistationForm extends Component {
   constructor(props) {
@@ -13,13 +17,22 @@ class RegistationForm extends Component {
     this.submitHandler = this.submitHandler.bind(this);
   }
 
+  componentWillUnmount() {
+    this.props.resetForm();
+  }
+
   changeHandler(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
 
   submitHandler(e) {
     e.preventDefault();
-    alert("I don't work yet");
+    const type = this.props.match.url.substring(1);
+    if (type === "login") {
+      this.props.login(this.state);
+    } else {
+      this.props.signup(this.state);
+    }
   }
 
   render() {
@@ -48,6 +61,11 @@ class RegistationForm extends Component {
                 onChange={this.changeHandler}
               />
             </div>
+            {this.props.errors.username && (
+              <div className="alert alert-danger">
+                {this.props.errors.username}
+              </div>
+            )}
             <div className="form-group">
               <input
                 className="form-control"
@@ -58,6 +76,16 @@ class RegistationForm extends Component {
                 onChange={this.changeHandler}
               />
             </div>
+            {this.props.errors.password && (
+              <div className="alert alert-danger">
+                {this.props.errors.password}
+              </div>
+            )}
+            {this.props.errors.non_field_errors && (
+              <div className="alert alert-danger">
+                {this.props.errors.non_field_errors}
+              </div>
+            )}
             <input
               className="btn btn-primary"
               type="submit"
@@ -81,4 +109,18 @@ class RegistationForm extends Component {
   }
 }
 
-export default RegistationForm;
+const mapStateToProps = state => ({
+  user: state.auth.user,
+  errors: state.errors
+});
+
+const mapDispatchToProps = dispatch => ({
+  signup: userData => dispatch(actionCreators.signup(userData)),
+  login: userData => dispatch(actionCreators.login(userData)),
+  resetForm: () => dispatch(actionCreators.setErrors({}))
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(RegistationForm);

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 
 // Fontawesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -9,19 +10,25 @@ import {
   faUserPlus
 } from "@fortawesome/free-solid-svg-icons";
 
+// Actions
+import * as actionCreators from "/Users/grumpy/Development/REACT/Chatr2.0-UI/src/store/actions";
+
 class AuthButton extends Component {
   render() {
-    const { user } = this.props;
+    // const user = this.props.user;
     let buttons;
 
-    if (user) {
-      buttons = (
-        <li className="nav-item">
-          <span className="nav-link">
+    if (this.props.user) {
+      buttons = [
+        <li key="logutButton" className="nav-item">
+          <button
+            onClick={() => this.props.logout()}
+            className="nav-link btn btn-danger"
+          >
             <FontAwesomeIcon icon={faSignOutAlt} /> Logout
-          </span>
+          </button>
         </li>
-      );
+      ];
     } else {
       buttons = [
         <li key="loginButton" className="nav-item">
@@ -39,11 +46,24 @@ class AuthButton extends Component {
 
     return (
       <ul className="navbar-nav ml-auto">
-        {/* <span className="navbar-text">{user.username}</span> */}
+        <span className="navbar-text mr-2">
+          {this.props.user && this.props.user.username}
+        </span>
         {buttons}
       </ul>
     );
   }
 }
 
-export default AuthButton;
+const mapStateToProps = state => ({
+  user: state.auth.user
+});
+
+const mapDispatchToProps = dispatch => ({
+  logout: () => dispatch(actionCreators.logout())
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AuthButton);
