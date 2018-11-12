@@ -19,3 +19,20 @@ export const fetchChannels = () => {
       });
   };
 };
+
+export const addChannel = NEW_CHANNEL_NAME => {
+  return dispatch => {
+    instance
+      .post("channels/create/", NEW_CHANNEL_NAME)
+      .then(res => res.data)
+      .then(createdChannel =>
+        dispatch({
+          type: actionTypes.ADD_CHANNEL,
+          payload: createdChannel
+        })
+      )
+      .catch(err => {
+        dispatch(setErrors(err.response.data));
+      });
+  };
+};

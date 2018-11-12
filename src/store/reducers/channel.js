@@ -1,24 +1,24 @@
 import * as actionTypes from "../actions/actionTypes";
 
 const initialState = {
-  channelsList: [],
+  channelMessages: [],
   loading: true
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case actionTypes.FETCH_CHANNELS:
+    case actionTypes.FETCH_CHANNEL_DETAIL:
       return {
         ...state,
-        channelsList: action.payload,
+        channelMessages: action.payload,
         loading: false
       };
-    case actionTypes.ADD_CHANNEL:
+
+    case actionTypes.SET_CHANNEL_LOADING:
       return {
         ...state,
-        channelsList: [action.payload].concat(state.channelsList)
+        loading: true
       };
-
     default:
       return state;
   }
