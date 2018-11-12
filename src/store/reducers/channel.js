@@ -13,7 +13,11 @@ const reducer = (state = initialState, action) => {
         channelMessages: action.payload,
         loading: false
       };
-
+    case actionTypes.ADD_MESSAGE:
+      return {
+        ...state,
+        channelMessages: [action.payload].concat(state.channelMessages)
+      };
     case actionTypes.SET_CHANNEL_LOADING:
       return {
         ...state,

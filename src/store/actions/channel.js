@@ -27,3 +27,23 @@ export const fetchChannelDetail = CHANNEL_ID => {
       });
   };
 };
+
+export const addMessage = (CHANNEL_ID, NEW_MESSAGE, user) => {
+  return dispatch => {
+    instance
+      .post(`channels/${CHANNEL_ID}/send/`, NEW_MESSAGE)
+      .then(res => res.data)
+      .then(createdMessage => {
+        // console.log(createdMessage);
+        dispatch({
+          type: actionTypes.ADD_MESSAGE,
+          // payload: { username: user, message: createdMessage.message }
+          payload: { ...createdMessage, username: user }
+        });
+      })
+      .catch(err => {
+        console.log(err);
+        // dispatch(setErrors(err.response.data));
+      });
+  };
+};

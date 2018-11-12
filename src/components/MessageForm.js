@@ -4,19 +4,23 @@ import { connect } from "react-redux";
 // Actions
 import * as actionCreators from "../store/actions";
 
-class ChannelForm extends Component {
+class MessageForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: ""
+      message: ""
     };
-    this.submitChannel = this.submitChannel.bind(this);
+    this.submitMessage = this.submitMessage.bind(this);
     this.onTextchange = this.onTextchange.bind(this);
   }
 
-  submitChannel(event) {
+  submitMessage(event) {
     event.preventDefault();
-    this.props.addChannel(this.state);
+    this.props.addMessage(
+      this.props.CHANNEL_ID,
+      this.state,
+      this.props.user.username
+    );
   }
 
   onTextchange(event) {
@@ -25,15 +29,15 @@ class ChannelForm extends Component {
 
   render() {
     return (
-      <form onSubmit={this.submitChannel}>
+      <form onSubmit={this.submitMessage}>
         <div className="input-group mb-3">
           <div className="input-group-prepend">
-            <span className="input-group-text">Name</span>
+            <span className="input-group-text">Message</span>
           </div>
           <input
             type="text"
             className="form-control"
-            name="name"
+            name="message"
             onChange={this.onTextchange}
           />
         </div>
@@ -43,14 +47,18 @@ class ChannelForm extends Component {
   }
 }
 
+const mapStateToProps = state => ({
+  user: state.auth.user
+});
+
 const mapDispatchToProps = dispatch => {
   return {
-    addChannel: newChannelName =>
-      dispatch(actionCreators.addChannel(newChannelName))
+    addMessage: (id, newMessage, user) =>
+      dispatch(actionCreators.addMessage(id, newMessage, user))
   };
 };
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
-)(ChannelForm);
+)(MessageForm);

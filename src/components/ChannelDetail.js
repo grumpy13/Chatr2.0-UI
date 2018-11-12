@@ -2,6 +2,7 @@ import React, { Component } from "react";
 
 // Components
 import Loading from "./Loading";
+import AddMessageModal from "./AddMessageModal";
 
 import { connect } from "react-redux";
 
@@ -27,7 +28,6 @@ class ChannelDetail extends Component {
       messages = this.props.channelMessages.map(element => {
         return (
           <tr key={element.id}>
-            <th scope="row">{element.id}</th>
             <td>{element.username}</td>
             <td>{element.message}</td>
           </tr>
@@ -44,13 +44,15 @@ class ChannelDetail extends Component {
             <table className="table">
               <thead className="thead-dark">
                 <tr>
-                  <th scope="col">ID</th>
                   <th scope="col">username</th>
                   <th scope="col">message</th>
                 </tr>
               </thead>
               <tbody>{messages}</tbody>
             </table>
+            {this.props.user && (
+              <AddMessageModal id={this.props.match.params.CHANNEL_ID} />
+            )}
           </div>
         </div>
       );
@@ -61,8 +63,8 @@ class ChannelDetail extends Component {
 const mapStateToProps = state => {
   return {
     channelMessages: state.channel.channelMessages,
-    loading: state.channel.loading
-    // user: state.auth.user
+    loading: state.channel.loading,
+    user: state.auth.user
   };
 };
 

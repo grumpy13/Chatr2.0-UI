@@ -4,4 +4,4 @@ export { setErrors } from "./errors";
 
 export { fetchChannels, addChannel } from "./channels";
 
-export { fetchChannelDetail } from "./channel";
+export { fetchChannelDetail, addMessage } from "./channel";
