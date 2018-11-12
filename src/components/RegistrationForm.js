@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 
 // Actions
@@ -36,6 +36,9 @@ class RegistationForm extends Component {
   }
 
   render() {
+    if (this.props.user) {
+      return <Redirect to="/CreateChannel" />;
+    }
     const type = this.props.match.url.substring(1);
     return (
       <div className="card col-6 mx-auto p-0 mt-5">

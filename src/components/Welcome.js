@@ -1,8 +1,12 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
+import { connect } from "react-redux";
 
 class Welcome extends Component {
   render() {
+    if (this.props.user) {
+      return <Redirect to="/CreateChannel" />;
+    }
     return (
       <header className="masthead d-flex">
         <div className="container text-center my-auto z-1">
@@ -19,5 +23,11 @@ class Welcome extends Component {
     );
   }
 }
+const mapStateToProps = state => ({
+  user: state.auth.user
+});
 
-export default Welcome;
+export default connect(
+  mapStateToProps,
+  null
+)(Welcome);
