@@ -37,7 +37,7 @@ class RegistationForm extends Component {
 
   render() {
     if (this.props.user) {
-      return <Redirect to="/CreateChannel" />;
+      return <Redirect to="/Hello" />;
     }
     const type = this.props.match.url.substring(1);
     return (

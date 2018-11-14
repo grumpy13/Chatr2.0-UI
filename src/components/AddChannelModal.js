@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import Modal from "react-responsive-modal";
+import { Redirect } from "react-router-dom";
+import { connect } from "react-redux";
 
 import ChannelForm from "./ChannelForm";
 
@@ -12,14 +14,25 @@ class AddChannelModal extends Component {
     this.onOpenModal = this.onOpenModal.bind(this);
     this.onCloseModal = this.onCloseModal.bind(this);
   }
+  componentDidMount() {
+    this.onOpenModal();
+  }
   onOpenModal() {
     this.setState({ open: true });
   }
 
   onCloseModal() {
     this.setState({ open: false });
+    this.props.history.goBack();
   }
+  // componentWillUnmount() {
+  //   return <Redirect to="/Hello" />;
+  // }
+
   render() {
+    if (!this.props.user) {
+      return <Redirect to="/Hello" />;
+    }
     const { open } = this.state;
     return (
       <div className="col-lg-4 col-md-6 col-12">
@@ -28,23 +41,15 @@ class AddChannelModal extends Component {
             <ChannelForm />
           </Modal>
         </div>
-        <div className="card" onClick={this.onOpenModal}>
-          <div className="image">
-            <img
-              className="card-img-top img-fluid"
-              src="https://mbtskoudsalg.com/images/a-plus-png-2.png"
-              alt="+"
-            />
-          </div>
-          <div className="card-body">
-            <h5 className="card-title">
-              <span>Add Channel</span>
-            </h5>
-          </div>
-        </div>
       </div>
     );
   }
 }
+const mapStateToProps = state => ({
+  user: state.auth.user
+});
 
-export default AddChannelModal;
+export default connect(
+  mapStateToProps,
+  null
+)(AddChannelModal);

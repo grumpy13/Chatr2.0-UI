@@ -1,6 +1,6 @@
 import * as actionTypes from "./actionTypes";
 import axios from "axios";
-import { setErrors } from "./errors";
+// import { setErrors } from "./errors";
 
 const instance = axios.create({
   baseURL: "https://api-chatr.herokuapp.com/"
@@ -22,9 +22,7 @@ export const fetchChannelDetail = CHANNEL_ID => {
           payload: channelMessages
         })
       )
-      .catch(err => {
-        dispatch(setErrors(err.response.data));
-      });
+      .catch(error => console.error(error));
   };
 };
 

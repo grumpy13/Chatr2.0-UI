@@ -16,11 +16,8 @@ class MessageForm extends Component {
 
   submitMessage(event) {
     event.preventDefault();
-    this.props.addMessage(
-      this.props.CHANNEL_ID,
-      this.state,
-      this.props.user.username
-    );
+    this.props.addMessage(this.props.id, this.state, this.props.user.username);
+    this.setState({ message: " " });
   }
 
   onTextchange(event) {
@@ -29,19 +26,18 @@ class MessageForm extends Component {
 
   render() {
     return (
-      <form onSubmit={this.submitMessage}>
+      <form onSubmit={this.submitMessage} className="text-center">
         <div className="input-group mb-3">
-          <div className="input-group-prepend">
-            <span className="input-group-text">Message</span>
-          </div>
           <input
             type="text"
             className="form-control"
             name="message"
+            placeholder="Message..."
+            value={this.state.message}
             onChange={this.onTextchange}
           />
+          <input type="submit" value="SEND" className="btn btn-info" />
         </div>
-        <input type="submit" />
       </form>
     );
   }
