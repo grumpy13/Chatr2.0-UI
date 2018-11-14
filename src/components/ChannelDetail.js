@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 // Components
-import AddMessageModal from "./AddMessageModal";
+import MessageForm from "./MessageForm";
 
 import { connect } from "react-redux";
 
@@ -33,28 +33,29 @@ class ChannelDetail extends Component {
   }
 
   render() {
+    const style = {
+      fontFamily: "monospace",
+      fontSize: "20px"
+    };
     const messages = this.props.channelMessages.map((element, idx) => {
       return (
         <tr key={element.message + idx}>
-          <td>{element.username}</td>
-          <td>{element.message}</td>
+          <strong>
+            <td className="text-uppercase float-left">{element.username}:</td>
+          </strong>
+          <td className="float-left">{element.message}</td>
         </tr>
       );
     });
     return (
       <div className="channel">
-        <div className="container">
-          <table className="table">
-            <thead className="thead-dark">
-              <tr>
-                <th scope="col">username</th>
-                <th scope="col">message</th>
-              </tr>
-            </thead>
+        <div className="container jumbotron">
+          <table className="table" style={style}>
+            <thead className="thead-light" />
             <tbody>{messages}</tbody>
           </table>
           {this.props.user && (
-            <AddMessageModal id={this.props.match.params.CHANNEL_ID} />
+            <MessageForm id={this.props.match.params.CHANNEL_ID} />
           )}
         </div>
       </div>

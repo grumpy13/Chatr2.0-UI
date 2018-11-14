@@ -26,11 +26,14 @@ class AddMessageModal extends Component {
         <Modal open={open} onClose={this.onCloseModal} center>
           <MessageForm CHANNEL_ID={this.props.id} />
         </Modal>
-        <input
-          type="button"
-          onClick={this.onOpenModal}
-          value="Add New Message!"
-        />
+        <center>
+          <input
+            className="btn btn-info m-2"
+            type="button"
+            onClick={this.onOpenModal}
+            value="Add New Message!"
+          />
+        </center>
       </div>
     );
   }

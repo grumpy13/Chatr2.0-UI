@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 
 // Actions
@@ -16,7 +17,7 @@ class ChannelForm extends Component {
 
   submitChannel(event) {
     event.preventDefault();
-    this.props.addChannel(this.state);
+    this.props.addChannel(this.state, this.props.history);
   }
 
   onTextchange(event) {
@@ -45,12 +46,14 @@ class ChannelForm extends Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    addChannel: newChannelName =>
-      dispatch(actionCreators.addChannel(newChannelName))
+    addChannel: (newChannelName, history) =>
+      dispatch(actionCreators.addChannel(newChannelName, history))
   };
 };
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(ChannelForm);
+export default withRouter(
+  connect(
+    null,
+    mapDispatchToProps
+  )(ChannelForm)
+);

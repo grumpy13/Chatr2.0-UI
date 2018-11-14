@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 class Welcome extends Component {
   render() {
     if (this.props.user) {
-      return <Redirect to="/CreateChannel" />;
+      return <Redirect to="/Hello" />;
     }
     return (
       <header className="masthead d-flex">
