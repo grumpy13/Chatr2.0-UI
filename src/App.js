@@ -15,16 +15,18 @@ import SuperSecretPage from "./components/SuperSecretPage";
 import ChannelDetail from "./components/ChannelDetail";
 import AddChannelModal from "./components/AddChannelModal";
 import HELLO from "./components/HELLO";
-import "./App.css";
 
 class App extends Component {
-  componentDidMount() {
+  componentWillMount() {
     if (this.props.user) {
       this.props.fetchChannels();
     }
   }
-
   render() {
+    const styleFooter = {
+      backgroundColor: "#fff",
+      opacity: "0.6"
+    };
     return (
       <div className="content-wrapper">
         <NavBar />
@@ -38,7 +40,7 @@ class App extends Component {
           <PrivateRoute path="/private" component={SuperSecretPage} />
           <Redirect to="/welcome" />
         </Switch>
-        <Footer />
+        <Footer style={styleFooter} />
       </div>
     );
   }

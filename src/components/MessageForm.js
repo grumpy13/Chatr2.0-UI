@@ -26,7 +26,7 @@ class MessageForm extends Component {
 
   render() {
     return (
-      <form onSubmit={this.submitMessage} className="text-center">
+      <form onSubmit={this.submitMessage} className="text-center mt-5">
         <div className="input-group mb-3">
           <input
             type="text"

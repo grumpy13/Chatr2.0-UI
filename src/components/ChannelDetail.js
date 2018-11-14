@@ -2,11 +2,13 @@ import React, { Component } from "react";
 
 // Components
 import MessageForm from "./MessageForm";
+import Timestamp from "react-timestamp";
 
 import { connect } from "react-redux";
 
 // Actions
 import * as actionCreators from "../store/actions";
+import "../Style.css";
 
 class ChannelDetail extends Component {
   componentDidMount() {
@@ -37,13 +39,21 @@ class ChannelDetail extends Component {
       fontFamily: "monospace",
       fontSize: "20px"
     };
+    const timeStyle = {
+      fontFamily: "monospace",
+      fontSize: "13px"
+    };
     const messages = this.props.channelMessages.map((element, idx) => {
       return (
         <tr key={element.message + idx}>
-          <strong>
-            <td className="text-uppercase float-left">{element.username}:</td>
-          </strong>
+          <td className="text-uppercase float-left">
+            <strong>{element.username}:</strong>
+          </td>
+
           <td className="float-left">{element.message}</td>
+          <td className="float-right" style={timeStyle}>
+            <Timestamp time={element.timestamp} precision={2} />
+          </td>
         </tr>
       );
     });
