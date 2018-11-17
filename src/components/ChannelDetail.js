@@ -37,7 +37,7 @@ class ChannelDetail extends Component {
   render() {
     const style = {
       fontFamily: "monospace",
-      fontSize: "20px"
+      fontSize: "21px"
     };
     const timeStyle = {
       fontFamily: "monospace",
